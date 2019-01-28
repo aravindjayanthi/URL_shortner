@@ -1,7 +1,6 @@
 package com.proptiger.service;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+
 import java.sql.Date;
 import java.time.LocalDate;
 
@@ -39,7 +38,7 @@ public class UrlServiceImp implements UrlService{
 	
 	public String createUrl(Url url) {
 		
-		String hash = md5(url.getLongUrl());
+		String hash = serviceUtil.md5(url.getLongUrl());
 		Url tempUrl = urlDao.findByHashOfLongUrl(hash);
 		if(tempUrl!=null) {
 			incUsedService();
@@ -109,26 +108,6 @@ public class UrlServiceImp implements UrlService{
 	@Async
 	private void incUsedService() {
 		reportDao.incservicesUsed(Date.valueOf(LocalDate.now()));
-	}
-	
-	
-	private String md5(String longUrl) {
-		
-		try {
-			MessageDigest m = MessageDigest.getInstance("MD5");
-			m.reset();
-			m.update(longUrl.getBytes());
-			byte []h = m.digest();
-			StringBuilder sb = new StringBuilder(2*h.length);
-			for(byte b:h) {
-				sb.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4));
-			    sb.append("0123456789ABCDEF".charAt((b & 0x0F)));
-			}
-			return sb.toString();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 	
 	private int getNextValidId() {

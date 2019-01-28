@@ -1,5 +1,8 @@
 package com.proptiger.util;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -40,6 +43,25 @@ public class ServiceUtil {
 			mul *= 64;
 		}
 		return id;
+	}
+	
+	public String md5(String longUrl) {
+		
+		try {
+			MessageDigest m = MessageDigest.getInstance("MD5");
+			m.reset();
+			m.update(longUrl.getBytes());
+			byte []h = m.digest();
+			StringBuilder sb = new StringBuilder(2*h.length);
+			for(byte b:h) {
+				sb.append("0123456789ABCDEF".charAt((b & 0xF0) >> 4));
+			    sb.append("0123456789ABCDEF".charAt((b & 0x0F)));
+			}
+			return sb.toString();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
