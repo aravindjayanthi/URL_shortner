@@ -26,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 public class WebConfig extends WebMvcConfigurerAdapter{
 	
+	
 	@Bean
 	public EntityManagerFactory entityManagerFactory(){
 	      DriverManagerDataSource dataSource = new DriverManagerDataSource();

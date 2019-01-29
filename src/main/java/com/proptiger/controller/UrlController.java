@@ -4,7 +4,6 @@ package com.proptiger.controller;
 import java.net.MalformedURLException;
 import java.sql.Date;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -15,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.proptiger.dto.ResponseDto;
 import com.proptiger.model.Report;
 import com.proptiger.model.Url;
 import com.proptiger.service.UrlService;
-import com.proptiger.dto.ResponseDto;
 
 @Controller
 public class UrlController {
@@ -36,8 +35,9 @@ public class UrlController {
 	
 	@RequestMapping(value = "/short", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDto getLongUrl(@RequestParam("surl") String shortUrl) throws MalformedURLException {
-		return new ResponseDto(urlService.getLongUrl(shortUrl));
+	//@Cacheable("longUrl")
+	public String getLongUrl(@RequestParam("surl") String shortUrl) throws MalformedURLException {
+		return urlService.getLongUrl(shortUrl);
 	}
 
 	@RequestMapping(value = "/report", method = RequestMethod.GET)
@@ -62,4 +62,5 @@ public class UrlController {
 		urlService.updateUsedAt();
 	}
 	
+
 }

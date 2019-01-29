@@ -14,7 +14,7 @@ public interface UrlDao extends JpaRepository<Url, Integer>{
 	
 	public Url findByHashOfLongUrl(String hashOfLongUrl); 
 	
-	@Query(value="select Id from urls.url where url.usedAt<=? LIMIT 1", nativeQuery=true)
+	@Query(value="select Id from urls.url where url.usedAt<=?", nativeQuery=true)
 	public int findNextValidId(Date date);
 	
 	@Transactional
@@ -25,6 +25,6 @@ public interface UrlDao extends JpaRepository<Url, Integer>{
 	
 	@Transactional
 	@Modifying
-	@Query(value="update urls.url set longUrl=?3, hashOfLongUrl=?2 where id=?1", nativeQuery=true)
-	public void updateLongUrl(int id, String hash, String longUrl);
+	@Query(value="update urls.url set longUrl=?3, hashOfLongUrl=?2, usedAt=?4 where id=?1", nativeQuery=true)
+	public void updateLongUrl(int id, String hash, String longUrl, Date date);
 }

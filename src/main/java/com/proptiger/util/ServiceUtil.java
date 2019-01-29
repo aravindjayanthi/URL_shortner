@@ -9,7 +9,10 @@ import org.springframework.stereotype.Component;
 public class ServiceUtil {
 	
 	
-	
+	/*
+	 * This function is used for converting
+	 * Id into base64 short url string
+	 */
 	public String indexTobase64(int index) {
 		
 		char[] b64 = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 
@@ -29,6 +32,12 @@ public class ServiceUtil {
 		return sb.toString();
 	}
 	
+	
+	/*
+	 * This function retrieves the id from short url
+	 * which helps us to find the long url corresponding
+	 * to the short url
+	 */
 	public int getIdFromShortUrl(String shortUrl) {
 		int mul = 1;
 		int id = 0;
@@ -45,6 +54,12 @@ public class ServiceUtil {
 		return id;
 	}
 	
+	
+	/*
+	 * This function calculates the secure hash
+	 * of the long url using MD5 algorithm which helps in 
+	 * re-usability.
+	 */
 	public String md5(String longUrl) {
 		
 		try {
@@ -63,5 +78,6 @@ public class ServiceUtil {
 		}
 		return null;
 	}
+
 
 }

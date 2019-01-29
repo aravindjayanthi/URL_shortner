@@ -33,7 +33,7 @@ public class UrlServiceImp implements UrlService{
 	private ApplicationContext applicationContext;
 	@Autowired
 	private ServiceUtil serviceUtil;
-	private int maxLinksStored = 10;
+	private int maxLinksStored = 7;
 	
 	
 	public String createUrl(Url url) {
@@ -49,8 +49,8 @@ public class UrlServiceImp implements UrlService{
 		int nextId = (int)urlDao.count();
 		if(nextId>=maxLinksStored) {
 			nextId = getNextValidId();
-			updateLongUrl(nextId, hash, url.getLongUrl());
-			return "https://mk.com/"+serviceUtil.indexTobase64(url.getId());
+			applicationContext.getBean(UrlService.class).updateLongUrl(nextId, hash, url.getLongUrl());
+			return "https://mk.com/"+serviceUtil.indexTobase64(nextId);
 		}
 		
 		url.setId(nextId);
@@ -63,6 +63,7 @@ public class UrlServiceImp implements UrlService{
 	
 	public String getLongUrl(String shortUrl) {
 		
+		//return "test";
 		String []tempArr = shortUrl.split("/");
 		
 		if(!tempArr[tempArr.length-2].equals("mk.com"))
@@ -73,7 +74,8 @@ public class UrlServiceImp implements UrlService{
 		incUsedService();
 		updateUsedIds(id);
 		
-		return applicationContext.getBean(UrlServiceImp.class).getLongUrl(id);
+		//return urlDao.findOne(id).getLongUrl();
+		return applicationContext.getBean(UrlService.class).getLongUrlString(id);
 	}
 	
 	public Report getTodayReport() {
@@ -128,14 +130,15 @@ public class UrlServiceImp implements UrlService{
 		urlDao.updateUsedAt(uid.getuId(), Date.valueOf(LocalDate.now()));
 	}
 	
-	@Cacheable(value="longUrl", key="#id")
-	private String getLongUrl(int id) {
+	//Caching functions
+	@Cacheable("longUrl")
+	public String getLongUrlString(int id) {
 		return urlDao.findOne(id).getLongUrl();
 	}
 
 	@CachePut(value="longUrl", key="#id")
-	private String updateLongUrl(int id, String hash, String longUrl) {
-		urlDao.updateLongUrl(id, hash, longUrl);
+	public String updateLongUrl(int id, String hash, String longUrl) {
+		urlDao.updateLongUrl(id, hash, longUrl, Date.valueOf(LocalDate.now()));
 		return longUrl;
 	}
 
