@@ -1,5 +1,5 @@
-com/proptiger/repository/UsedIdsDao.class
 com/proptiger/model/UsedIds.class
+com/proptiger/repository/UsedIdsDao.class
 com/proptiger/controller/UrlController.class
 com/proptiger/model/Url.class
 com/proptiger/conig/CacheConfig.class
@@ -8,7 +8,7 @@ com/proptiger/conig/WebAppIntializer.class
 com/proptiger/repository/ReportDao.class
 com/proptiger/dto/ResponseDto.class
 com/proptiger/repository/UrlDao.class
-com/proptiger/util/ServiceUtil.class
 com/proptiger/conig/WebConfig.class
+com/proptiger/util/ServiceUtil.class
 com/proptiger/service/UrlService.class
 com/proptiger/model/Report.class
